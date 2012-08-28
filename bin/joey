@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+var argv = require("optimist")
+.default('p', 8080)
+.argv;
+
+require("../joey").blahblahblah().fileTree(argv._.shift() || ".")
+.listen(argv.p)
+.then(function (server) {
+    console.log("Listening on", argv.p);
+})
+.end();
+

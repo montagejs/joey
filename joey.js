@@ -59,6 +59,9 @@ chain.use = function (App /*, ...args*/) {
 };
 
 chain.terminate = function () {
+    if (!this.use) {
+        throw new Error("Cannot add links a terminated chain.");
+    }
     var result = this.use.apply(this, arguments);
     // forcibly prevent any further chaining
     this.use = null;
@@ -229,7 +232,9 @@ chain.app = function (app) {
 chain.contentApp = function (app) {
     return this.terminate(function () {
         return function (request, response) {
-            return JAQUE.ok(app(request, response));
+            return Q.when(app(request, response), function (content) {
+                return JAQUE.ok(content);
+            });
         };
     });
 };
@@ -279,7 +284,7 @@ chain.file = function (path, contentType) {
 };
 
 chain.fileTree = function (root, options) {
-    return this.use(function (next) {
+    return this.terminate(function (next) {
         options = options || {};
         options.notFound = next;
         return JAQUE.FileTree(root, options);

@@ -29,7 +29,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
-var HTTP = require("q-http");
+var HTTP = require("q-io/http");
 var JOEY = require("../joey");
 var Q = require("q");
 
@@ -74,11 +74,11 @@ exports['test methods'] = function (assert, done) {
                     });
                 })
             });
-        }, Q.ref())
+        }, Q.resolve())
         .fin(server.stop)
     })
     .fin(done)
-    .end()
+    .done()
 
 };
 

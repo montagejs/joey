@@ -30,10 +30,10 @@ POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
 var Q = require("q");
-var HTTP = require("q-http");
-var FS = require("q-fs");
-var JAQUE = require("jaque");
-var ROUTE = require("./lib/route");
+var FS = require("q-io/fs");
+var HTTP = require("q-io/http");
+var Apps = require("q-io/http-apps");
+var Route = require("./lib/route");
 
 var Chain = function (end) {
     var self = Object.create(Chain.prototype);
@@ -113,7 +113,7 @@ function (options) {
     "CookieJar",
     "ParseQuery" // TODO document in README.md
 ].forEach(function (name) {
-    chain.add(JAQUE[name], name);
+    chain.add(Apps[name], name);
 });
 
 // TODO document in README.md
@@ -139,9 +139,9 @@ chain.favicon = function (path) {
     // TODO vanity icon
     if (path) {
         path = FS.join(arguments);
-        app = JAQUE.File(path);
+        app = Apps.File(path);
     } else {
-        app = JAQUE.notFound;
+        app = Apps.notFound;
     }
     return this.use(function (next) {
         return function (request, response) {
@@ -158,12 +158,12 @@ chain.favicon = function (path) {
 // Routing and Negotiation
 
 chain.route = function (prefix, setup) {
-    return this.use(ROUTE.Setup(this, prefix, setup));
+    return this.use(Route.Setup(this, prefix, setup));
 };
 
 chain.branch = function (paths) {
     return this.use(function (next) {
-        return JAQUE.Branch(paths, next);
+        return Apps.Branch(paths, next);
     });
 };
 
@@ -201,25 +201,25 @@ var Constrain = function (Using) {
     }
 };
 
-chain.method = Constrain(JAQUE.Method);
-chain.methods = Multiplex(JAQUE.Method);
-chain.contentType = Constrain(JAQUE.ContentType);
-chain.contentTypes = Multiplex(JAQUE.ContentType);
-chain.language = Constrain(JAQUE.Language);
-chain.languages = Multiplex(JAQUE.Language);
-chain.charset = Constrain(JAQUE.Charset);
-chain.charsets = Multiplex(JAQUE.Charset);
-chain.encoding = Constrain(JAQUE.Encoding);
-chain.encodings = Multiplex(JAQUE.Encoding);
-chain.host = Constrain(JAQUE.Host);
-chain.hosts = Multiplex(JAQUE.Host);
+chain.method = Constrain(Apps.Method);
+chain.methods = Multiplex(Apps.Method);
+chain.contentType = Constrain(Apps.ContentType);
+chain.contentTypes = Multiplex(Apps.ContentType);
+chain.language = Constrain(Apps.Language);
+chain.languages = Multiplex(Apps.Language);
+chain.charset = Constrain(Apps.Charset);
+chain.charsets = Multiplex(Apps.Charset);
+chain.encoding = Constrain(Apps.Encoding);
+chain.encodings = Multiplex(Apps.Encoding);
+chain.host = Constrain(Apps.Host);
+chain.hosts = Multiplex(Apps.Host);
 
 
 // Endware
 
 chain.cap = function (notFound) {
     return this.use(function (next) {
-        return JAQUE.Cap(next, notFound);
+        return Apps.Cap(next, notFound);
     });
 };
 
@@ -233,7 +233,7 @@ chain.contentApp = function (app) {
     return this.terminate(function () {
         return function (request, response) {
             return Q.when(app(request, response), function (content) {
-                return JAQUE.ok(content);
+                return Apps.ok(content);
             });
         };
     });
@@ -241,19 +241,19 @@ chain.contentApp = function (app) {
 
 chain.proxy = function (app) {
     return this.use(function () {
-        return JAQUE.Proxy(app);
+        return Apps.Proxy(app);
     });
 };
 
 chain.proxyTree = function (app) {
     return this.use(function () {
-        return JAQUE.ProxyTree(app);
+        return Apps.ProxyTree(app);
     });
 };
 
 ['badRequest', 'notFound', 'methodNotAllowed', 'notAcceptable']
 .forEach(function (name) {
-    var app = JAQUE[name];
+    var app = Apps[name];
     chain[name] = function (app) {
         return this.app(app);
     };
@@ -273,13 +273,13 @@ chain.content = function (body, contentType, status) {
         body = [body];
     }
     return this.terminate(function () {
-        return JAQUE.Content(body, contentType, status);
+        return Apps.Content(body, contentType, status);
     });
 };
 
 chain.file = function (path, contentType) {
     return this.terminate(function () {
-        return JAQUE.File(path, contentType);
+        return Apps.File(path, contentType);
     });
 };
 
@@ -287,26 +287,26 @@ chain.fileTree = function (root, options) {
     return this.terminate(function (next) {
         options = options || {};
         options.notFound = next;
-        return JAQUE.FileTree(root, options);
+        return Apps.FileTree(root, options);
     });
 };
 
 chain.redirect = function (path) {
     return this.terminate(function () {
-        return JAQUE.Redirect(path);
+        return Apps.Redirect(path);
     });
 };
 
 chain.redirectTree = function (path) {
     return this.terminate(function () {
-        return JAQUE.RedirectTree(path);
+        return Apps.RedirectTree(path);
     });
 };
 
 chain.redirectPermanent =
 chain.permanentRedirect = function (path, status) {
     return this.terminate(function () {
-        return JAQUE.PermanentRedirect(path, status);
+        return Apps.PermanentRedirect(path, status);
     });
 };
 
@@ -314,7 +314,7 @@ chain.redirect =
 chain.redirectTemporary =
 chain.temporaryRedirect = function (path, status) {
     return this.terminate(function () {
-        return JAQUE.TemporaryRedirect(path, status);
+        return Apps.TemporaryRedirect(path, status);
     });
 };
 
@@ -322,12 +322,12 @@ chain.temporaryRedirect = function (path, status) {
 // Preprocessing
 
 chain.contentRequest = function () {
-    return this.use(JAQUE.ContentRequest);
+    return this.use(Apps.ContentRequest);
 };
 
 chain.jsonRequest = function (visitor, tabs) {
     return this.use(function (next) {
-        return JAQUE.JsonRequest(next, visitor, tabs);
+        return Apps.JsonRequest(next, visitor, tabs);
     });
 };
 
@@ -336,7 +336,7 @@ chain.jsonRequest = function (visitor, tabs) {
 
 chain.json = function (visitor, tabs) {
     return this.use(function (next) {
-        return JAQUE.Json(next, visitor, tabs);
+        return Apps.Json(next, visitor, tabs);
     });
 };
 

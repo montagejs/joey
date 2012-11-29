@@ -29,7 +29,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
-var HTTP = require("q-http");
+var HTTP = require("q-io/http");
 var JOEY = require("../joey");
 var Q = require("q");
 
@@ -312,9 +312,9 @@ function scaffold(setup, tests) {
                     .fin(server.stop);
                 });
             });
-        }, Q.ref())
+        }, Q.resolve())
         .fin(done)
-        .end();
+        .done();
     };
 }
 

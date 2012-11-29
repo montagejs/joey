@@ -35,26 +35,26 @@ JOEY
 .blahblahblah({debug: true})
 .route(function ($) {
     $("foo/...").redirectTree("..");
-    $("lydia/...").cap();
 })
 .fileTree(module.directory || __dirname)
-.listen(8080)
+.listen(0)
 .then(function (server) {
-    console.log("listening on 8080");
+    var port = server.node.address().port;
+    console.log("listening on " + port);
 
     var request = JOEY
     .redirectTrap()
     .cookieJar()
     .client();
 
-    return request("http://localhost:8080/foo/client.js")
+    return request("http://localhost:" + port + "/foo/client.js")
     .get("body")
     .invoke("read")
     .then(function (content) {
         console.log(content.toString("utf-8"));
     })
-    .fin(server.stop);
+    .finally(server.stop);
 
 })
-.end()
+.done()
 

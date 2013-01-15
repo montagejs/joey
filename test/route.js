@@ -281,9 +281,10 @@ function scaffold(setup, tests) {
                 return setup(JOEY.blah({
                     log: function () {}
                 }), assert)
-                .listen(8080)
+                .listen(0)
                 .then(function (server) {
-                    return HTTP.request("http://localhost:8080/" + path)
+                    var port = server.node.address().port;
+                    return HTTP.request("http://localhost:" + port + "/" + path)
                     .then(function (response) {
                         if (response.status === 200) {
                             assert.equal(response.status, 200, JSON.stringify(path) + ' status');

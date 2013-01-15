@@ -55,12 +55,13 @@ exports['test methods'] = function (assert, done) {
         method("POST").content("posted");
         method("PUT").content("put");
     })
-    .listen(8080)
+    .listen(0)
     .then(function (server) {
+        var port = server.node.address().port;
         return tests.reduce(function (ready, test) {
             return Q.when(ready, function () {
                 return HTTP.read({
-                    "url": "http://localhost:8080/",
+                    "url": "http://localhost:" + port + "/",
                     "method": test.method
                 })
                 .then(function (content) {

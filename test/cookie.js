@@ -44,15 +44,16 @@ var J = require("../joey");
                 body: [request.headers.cookie || ""]
             }
         })
-        .listen(8080)
+        .listen(0)
         .then(function (server) {
-            return request("http://" + host + ":8080")
+            var port = server.node.address().port;
+            return request("http://" + host + ":" + port)
             .get("body")
             .invoke("read")
             .invoke("toString", "utf-8")
             .then(function (content) {
                 assert.equal(content, "", "no cookie first time");
-                return request("http://" + host + ":8080")
+                return request("http://" + host + ":" + port)
                 .get("body")
                 .invoke("read")
                 .invoke("toString", "utf-8")
@@ -62,7 +63,7 @@ var J = require("../joey");
             })
             .delay(1100)
             .then(function () {
-                return request("http://" + host + ":8080")
+                return request("http://" + host + ":" + port)
                 .get("body")
                 .invoke("read")
                 .invoke("toString", "utf-8")

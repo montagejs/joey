@@ -9,7 +9,7 @@ require("../joey")
 .fileTree(argv._.shift() || ".")
 .listen(argv.p)
 .then(function (server) {
-    console.log("Listening on", argv.p);
+    console.log("Listening on", server.address().port);
 })
 .done();
 

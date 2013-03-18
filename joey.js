@@ -87,6 +87,7 @@ chain.blah =
 chain.blahblah =
 chain.blahblahblah =
 chain.useCommon =
+chain.common =
 function (options) {
     options = options || {};
     return this
@@ -111,7 +112,11 @@ function (options) {
     "Normalize", // TODO document in README.md
     "RedirectTrap",
     "CookieJar",
-    "ParseQuery" // TODO document in README.md
+    "ParseQuery", // TODO document in README.md
+    "DirectoryIndex",
+    "ListDirectories",
+    "HandleHtmlFragmentResponses",
+    "HandleJsonResponses"
 ].forEach(function (name) {
     chain.add(Apps[name], name);
 });

@@ -5,7 +5,11 @@ var argv = require("optimist")
 .argv;
 
 require("../joey")
-.blahblahblah()
+.common()
+.handleHtmlFragmentResponses()
+.handleJsonResponses()
+.listDirectories()
+.directoryIndex()
 .fileTree(argv._.shift() || ".")
 .listen(argv.p)
 .then(function (server) {

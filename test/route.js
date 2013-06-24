@@ -48,6 +48,19 @@ exports['test content'] = scaffold(
     }
 );
 
+exports['test routing via this'] = scaffold(
+    function (J) {
+        return J.route(function () {
+            this.any("text").content("Hello, World!");
+            this.GET("html").ok("<h1>Hello</h1>", "text/html", 201);
+        });
+    },
+    {
+        "text": "Hello, World!",
+        "html": 201
+    }
+);
+
 exports['test cap'] = scaffold(
     function (J) {
         return J.cap().content("Hello, World!")

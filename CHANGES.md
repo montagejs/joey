@@ -1,4 +1,8 @@
 
+# 1.2.1
+
+-   Update dependencies
+
 # 0.0.12
 
 -   Prepare for launch.

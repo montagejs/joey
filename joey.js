@@ -99,6 +99,7 @@ function (options) {
     .normalize()
 };
 
+
 // Create easy "use" wrappers for all of the following middleware
 [
     "Tap",

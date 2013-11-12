@@ -1,11 +1,15 @@
 
+# 1.3.1
+
+-   Update dependencies.
+
 # 1.3.0
 
 -   Support route.any (@wmertens)
 
 # 1.2.1
 
--   Update dependencies
+-   Update dependencies.
 
 # 0.0.12
 

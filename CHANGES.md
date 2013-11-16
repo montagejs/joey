@@ -1,4 +1,8 @@
 
+# 1.3.2
+
+-   Update dependencies. Particularly, fixes host negotiation.
+
 # 1.3.1
 
 -   Update dependencies.

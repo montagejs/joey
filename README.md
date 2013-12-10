@@ -1,4 +1,6 @@
 
+[![Build Status](https://travis-ci.org/montagejs/joey.png?branch=master)](http://travis-ci.org/montagejs/joey)
+
 Joey
 ====
 

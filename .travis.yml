@@ -2,3 +2,10 @@ language: node_js
 node_js:
   - 0.6
   - 0.8
+notifications:
+  irc: 
+    channels: 
+      - "chat.freenode.net#montage"
+    on_success: false
+    template: 
+      - "%{author} broke the %{repository} tests on %{branch}: %{build_url}"

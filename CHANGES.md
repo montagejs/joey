@@ -1,4 +1,9 @@
 
+# 1.3.3
+
+-   Update dependency on Q-IO, to obtain fixes for host negotiation decision
+    tracking and ranged HTTP requests for files.
+
 # 1.3.2
 
 -   Update dependencies. Particularly, fixes host negotiation.

@@ -6,7 +6,7 @@ Joey
 
 A [Sinatra][]-like and [jQuery][]-like web server (and client!)
 configuration language in JavaScript for [NodeJS][] and [NPM][], based
-on [JSGI][], [Q][], and [Jaque][].
+on [JSGI][], [Q][], and [Q-IO][].
 
 [Joey Bishop][JB] was a member of the [Humphrey][HB] [Bogart][Bogart]'s
 [Rat Pack][RP], which included [Frank][FS] [Sinatra][Sinatra],
@@ -19,7 +19,7 @@ Jr.][SDJ].
 [NPM]: http://npmjs.org/
 [JSGI]: http://wiki.commonjs.org/wiki/JSGI
 [Q]: https://github.com/kriskowal/q
-[Jaque]: https://github.com/kriskowal/jaque
+[Q-IO]: https://github.com/kriskowal/q-io
 [Sammy]: http://sammyjs.org/
 [Bogart]: https://github.com/nrstott/bogart
 [Martin]: https://github.com/thegrubbsian/Martin

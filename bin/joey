@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
+var uid = process.getuid();
+var defaultPort = uid === 0 ? 80 : 8080;
+
 var argv = require("optimist")
-.default('p', 8080)
+.default('p', defaultPort)
 .argv;
+
+var port = argv.p;
+var docroot = argv._.shift() || ".";
 
 require("../joey")
 .common()
@@ -10,10 +16,22 @@ require("../joey")
 .handleJsonResponses()
 .listDirectories()
 .directoryIndex()
-.fileTree(argv._.shift() || ".")
-.listen(argv.p)
+.fileTree(docroot)
+.listen(port)
 .then(function (server) {
-    console.log("Listening on", server.address().port);
+    console.log("docroot", docroot);
+    console.log("port", server.address().port);
+    console.log("pid", process.pid);
+    if (argv.u) {
+        process.setuid(argv.u);
+        console.log("uid", process.getuid());
+    }
+}, function (error) {
+    if (error.code === "EADDRINUSE") {
+        console.error("port", port, "already in use");
+    } else {
+        throw error;
+    }
 })
 .done();
 

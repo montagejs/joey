@@ -1,4 +1,8 @@
 
+# 1.4.0
+
+-   `bin/joey` now supports priviledge descalation with the `-u UID` argument.
+
 # 1.3.3
 
 -   Update dependency on Q-IO, to obtain fixes for host negotiation decision

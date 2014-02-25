@@ -29,60 +29,49 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
-var J = require("../joey");
+var Joey = require("../joey");
 
-["localhost", "127.0.0.1"].forEach(function (host) {
-
-    exports["test cookie " + host] = function (assert, done) {
-
-        var request = J.normalize().cookieJar().client();
-
-        J.log().app(function (request) {
-            return {
-                status: 200,
-                headers: {"set-cookie": "a=10; MaxAge=1"},
-                body: [request.headers.cookie || ""]
-            }
-        })
-        .listen(0)
-        .then(function (server) {
-            var port = server.node.address().port;
-            return request("http://" + host + ":" + port)
-            .get("body")
-            .invoke("read")
-            .invoke("toString", "utf-8")
-            .then(function (content) {
-                assert.equal(content, "", "no cookie first time");
+xdescribe("cookies", function () {
+    ["localhost", "127.0.0.1"].forEach(function (host) {
+        it("manages cookies on host " + host, function () {
+            var request = Joey.normalize().cookieJar().client();
+            return J.log().app(function (request) {
+                return {
+                    status: 200,
+                    headers: {"set-cookie": "a=10; MaxAge=1"},
+                    body: [request.headers.cookie || ""]
+                }
+            })
+            .listen(0)
+            .then(function (server) {
+                var port = server.node.address().port;
                 return request("http://" + host + ":" + port)
                 .get("body")
                 .invoke("read")
                 .invoke("toString", "utf-8")
+                .then(function (content) {
+                    expect(content).toBe(""); // no cookie first time
+                    return request("http://" + host + ":" + port)
+                    .get("body")
+                    .invoke("read")
+                    .invoke("toString", "utf-8")
+                })
+                .then(function (content) {
+                    expect(content).toBe("a=10"); // cookie set second time
+                })
+                .delay(2000)
+                .then(function () {
+                    return request("http://" + host + ":" + port)
+                    .get("body")
+                    .invoke("read")
+                    .invoke("toString", "utf-8")
+                })
+                .then(function (content) {
+                    expect(content).toBe(""); // no cookie after expiry
+                })
+                .finally(server.stop)
             })
-            .then(function (content) {
-                assert.equal(content, "a=10", "cookie set second time");
-            })
-            .delay(1100)
-            .then(function () {
-                return request("http://" + host + ":" + port)
-                .get("body")
-                .invoke("read")
-                .invoke("toString", "utf-8")
-            })
-            .then(function (content) {
-                assert.equal(content, "", "no cookie after expiry");
-            })
-            .fin(server.stop)
-        })
-        .timeout(2000)
-        .fail(function (reason) {
-            assert.ok(false, reason);
-        })
-        .fin(done)
-
-    };
-
+        });
+    });
 });
-
-if (require.main === module)
-    require("test").run(exports);
 

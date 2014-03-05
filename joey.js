@@ -283,9 +283,9 @@ chain.content = function (body, contentType, status) {
     });
 };
 
-chain.file = function (path, contentType) {
+chain.file = function (path, contentType, fs) {
     return this.terminate(function () {
-        return Apps.File(path, contentType);
+        return Apps.File(path, contentType, fs);
     });
 };
 

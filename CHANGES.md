@@ -1,4 +1,9 @@
 
+# 1.5.0
+
+-   Updates dependency versions. Q-IO v1.1, Q 1.0.
+-   Threads the `fs` argument through the `file` adaptor.
+
 # 1.4.0
 
 -   `bin/joey` now supports priviledge descalation with the `-u UID` argument.

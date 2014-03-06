@@ -1,12 +1,12 @@
 {
   "name": "joey",
-  "description": "A Sinatra-like web server configuration language for JavaScript, built on Jaque, Q, and JSGI.",
+  "description": "A Sinatra-like web server configuration language for JavaScript, built on Q, Q-IO, and JSGI.",
   "main": "joey.js",
   "dependencies": {
     "q": "~2.0.0",
     "q-io": "~2.0.0",
     "optimist": "~0.3.7",
-    "url2": "~0.0.0"
+    "url2": "~1.0.0"
   },
   "bin": {
     "joey": "bin/joey"

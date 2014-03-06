@@ -36,7 +36,7 @@ var Q = require("q");
 // TODO end
 
 function scaffold(setup, tests) {
-    return Object.keys(tests).reduce(function (done, path) {
+    return Object.keys(tests).reduce(function (done, test) {
         return done.then(function () {
             return setup(Joey.blah({
                 log: function () {}
@@ -44,25 +44,30 @@ function scaffold(setup, tests) {
             .listen(0)
             .then(function (server) {
                 var port = server.node.address().port;
-                return HTTP.request("http://localhost:" + port + "/" + path)
+                var parts = test.split(/ /);
+                if (parts.length === 2) {
+                    method = parts[0];
+                    path = parts[1];
+                } else {
+                    method = "GET",
+                    path = parts[0];
+                }
+                return HTTP.request({
+                    url: "http://localhost:" + port + "/" + path,
+                    method: method
+                })
                 .then(function (response) {
                     if (response.status === 200) {
-                        expect(response.status).toBe(200);
-                        if (typeof tests[path] === "string") {
-                            return Q.when(response.body, function (body) {
-                                return body.read().then(function (content) {
-                                    expect(content.toString("utf-8")).toEqual(tests[path]);
-                                });
+                        if (typeof tests[test] === "string") {
+                            return Q(response.body).invoke("read").then(function (content) {
+                                expect(content.toString("utf-8")).toEqual(tests[test]);
                             });
                         }
                     } else {
-                        if (typeof tests[path] === "number") {
-                            expect(response.status).toEqual(tests[path]);
+                        if (typeof tests[test] === "number") {
+                            expect(response.status).toEqual(tests[test]);
                         } else {
                             expect(response.status).toBe(200);
-                            return Q(response.body).invoke("read").then(function (content) {
-                                console.log(content.toString("utf-8"));
-                            });
                         }
                     }
                 }, function (error) {
@@ -358,6 +363,20 @@ describe("routing", function () {
             {
                 "foo": "foo",
                 "bar": "fallback"
+            }
+        );
+    });
+
+    it("accepts a positional argument all the way to DELETE", function () {
+        return scaffold(
+            function (Joey) {
+                return Joey.route(function (ANY, GET, PUT, POST, DELETE) {
+                    DELETE("text").content("Hello, World!");
+                });
+            },
+            {
+                "GET text": 404,
+                "DELETE text": "Hello, World!"
             }
         );
     });

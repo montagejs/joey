@@ -48,6 +48,18 @@ exports['test content'] = scaffold(
     }
 );
 
+exports['test positional'] = scaffold(
+    function (J) {
+        return J.route(function (ANY, GET, PUT, POST, DELETE) {
+            DELETE("text").content("Hello, World!");
+        });
+    },
+    {
+        // Does a get request
+        "text": 404
+    }
+);
+
 exports['test routing via this'] = scaffold(
     function (J) {
         return J.route(function () {

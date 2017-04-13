@@ -4,9 +4,9 @@
   "description": "A Sinatra-like web server configuration language for JavaScript, built on Q, Q-IO, and JSGI.",
   "main": "joey.js",
   "dependencies": {
-    "q": "~1.0.0",
-    "q-io": "~1.11.0",
     "optimist": "~0.3.7",
+    "q": "^1.5.0",
+    "q-io": "^1.13.2",
     "url2": "~1.0.0"
   },
   "bin": {

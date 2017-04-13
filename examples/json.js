@@ -29,9 +29,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
-var JOEY = require("../joey");
+var joey = require("../joey");
 
-JOEY // Hi.
+joey // Hi.
 .blah() // log, handle errors, blah blah blah
 // starting at "/"
 .cap() // then stop routing, ignore any path other than "/"
@@ -50,7 +50,6 @@ JOEY // Hi.
 .listen(8888) // start the server
 .then(function (server) { // when it has started
     // let us know
-    console.log('Listening on', server.port);
-})
-.end() // throw any errors that propagate this far
+    console.log("Listening on", server.address().port);
+});
 

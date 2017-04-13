@@ -29,7 +29,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 </copyright> */
 
-require("../joey")
+var joey = require("../joey");
+
+joey // Hi.
 .contentType("text/plain") // all responses will have this content type
     // add this content-type header to all responses, and
     // fail to negotiate any other content type
@@ -58,7 +60,6 @@ require("../joey")
 })
 .listen(8888)
 .then(function (server) {
-    console.log("Listening on", server.port)
-})
-.end()
+    console.log("Listening on", server.address().port);
+});
 

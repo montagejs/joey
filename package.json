@@ -8,15 +8,19 @@
     "optimist": "~0.3.7",
     "q": "^1.5.0",
     "q-io": "^1.13.3",
-    "url2": "~1.0.0"
+    "url2": "~1.0.0",
+    "snyk": "^1.30.0"
   },
   "bin": {
     "joey": "bin/joey"
   },
   "scripts": {
-    "test": "node test/all.js"
+    "test": "node test/all.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "test": "0.6.x"
-  }
+  },
+  "snyk": true
 }

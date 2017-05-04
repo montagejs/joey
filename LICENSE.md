@@ -1,3 +1,5 @@
+3-clause BSD license
+====================
 Copyright (c) 2011, Motorola Mobility, Inc
 
 All Rights Reserved.

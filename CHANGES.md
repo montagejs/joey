@@ -1,3 +1,6 @@
+# 1.5.1
+
+-   Updates dependency versions. Q-IO vq-io, Q 1.5.0
 
 # 1.5.0
 

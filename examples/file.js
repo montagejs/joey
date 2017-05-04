@@ -12,6 +12,7 @@ var mockFs = MockFs({
 })
 
 var server = joey // Hi.
+  .blah() // log, handle errors, blah blah blah
   .fileTree('/', {fs: mockFs}) // Use mockFs
   .listen(8888) // start the server
   .then(function (server) { // when it has started

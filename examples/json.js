@@ -32,24 +32,25 @@ POSSIBILITY OF SUCH DAMAGE.
 var joey = require("../joey");
 
 joey // Hi.
-.blah() // log, handle errors, blah blah blah
-// starting at "/"
-.cap() // then stop routing, ignore any path other than "/"
-.contentType("application/json") // content negotiation, with only one option
-                                 // also adds this header to the response
-.language("en-US") // English, do you speak it?
-.charset("utf-8") // accept this charset or content-negotiation will fail
-.json(null, 4) // convert the "response" to a proper JSON response
-     // with no rewriting and 4 space indentation
-.app(function (request) { // respond to all requests with this object
-    return {
-        greeting: "Hello!",
-        receipient: "World"
-    }
-})
-.listen(8888) // start the server
-.then(function (server) { // when it has started
-    // let us know
-    console.log("Listening on", server.address().port);
-});
+  .blah() // log, handle errors, blah blah blah
+  // starting at "/"
+  .cap() // then stop routing, ignore any path other than "/"
+  .contentType("application/json") // content negotiation, with only one option
+                                   // also adds this header to the response
+  .language("en-US") // English, do you speak it?
+  .charset("utf-8") // accept this charset or content-negotiation will fail
+  .json(null, 4) // convert the "response" to a proper JSON response
+       // with no rewriting and 4 space indentation
+  .app(function (request) { // respond to all requests with this object
+      return {
+          greeting: "Hello!",
+          receipient: "World"
+      }
+  })
+  .listen(8888) // start the server
+  .then(function (server) { // when it has started
+      // let us know
+      console.log("Listening on", server.address().port);
+  })
+  .done();
 

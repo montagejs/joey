@@ -16,6 +16,7 @@ var server = joey // Hi.
   .fileTree('/', {fs: mockFs}) // Use mockFs
   .listen(8888) // start the server
   .then(function (server) { // when it has started
-      // let us know
-      console.log("Listening on", server.address().port);
-  }).done();
+    // let us know
+    console.log("Listening on", server.address().port);
+  })
+  .done();

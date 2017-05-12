@@ -32,34 +32,35 @@ POSSIBILITY OF SUCH DAMAGE.
 var joey = require("../joey");
 
 joey // Hi.
-.contentType("text/plain") // all responses will have this content type
-    // add this content-type header to all responses, and
-    // fail to negotiate any other content type
-    // (so if Accept: application/json, they’ll get a
-    // 406 Not acceptable)
-// begin routing at "/"
-.route(function (match) {
+  .contentType("text/plain") // all responses will have this content type
+      // add this content-type header to all responses, and
+      // fail to negotiate any other content type
+      // (so if Accept: application/json, they’ll get a
+      // 406 Not acceptable)
+  // begin routing at "/"
+  .route(function (match) {
 
-    // no further path
-    match("")
-    .method("GET") // only respond to GET at this path
-                   // other methods will have unsupported method responses
-    .content("Hello, World!") // just say it; it’s static
+      // no further path
+      match("")
+      .method("GET") // only respond to GET at this path
+                     // other methods will have unsupported method responses
+      .content("Hello, World!") // just say it; it’s static
 
-    // the next path component is a name, no slash
-    match(":name")
-    .method("GET") // only respond to GET at this path
-                   // other methods will have unsupported method responses
-    // generate content based on the request.  we’ll transform it into a
-    // response object on the way back to the server
-    .contentApp(function (request) {
-        return "Hello, " + request.params.name + "!";
-    })
+      // the next path component is a name, no slash
+      match(":name")
+      .method("GET") // only respond to GET at this path
+                     // other methods will have unsupported method responses
+      // generate content based on the request.  we’ll transform it into a
+      // response object on the way back to the server
+      .contentApp(function (request) {
+          return "Hello, " + request.params.name + "!";
+      })
 
-    // everything else is not found
-})
-.listen(8888)
-.then(function (server) {
-    console.log("Listening on", server.address().port);
-});
+      // everything else is not found
+  })
+  .listen(8888)
+  .then(function (server) {
+      console.log("Listening on", server.address().port);
+  })
+  .done();
 

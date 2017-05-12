@@ -61,7 +61,7 @@ Hello, You!
 ===========
 
 ```javascript
-require("./joey")
+require("joey")
 .log()
 .error()
 .favicon()
@@ -109,7 +109,7 @@ require("./joey")
     console.log("Listening on 8080")
 
     // client
-    var request = require("./joey").cookieJar().redirectTrap(20).client();
+    var request = require("joey").redirectTrap(20).client();
 
     request("http://localhost:8080")
     .then(function (response) {
@@ -119,7 +119,7 @@ require("./joey")
         .then(console.log)
     })
 })
-.end()
+.done()
 ```
 
 Usage
@@ -265,7 +265,7 @@ Which you can then serve as a web application.
 .then(function (server) {
     console.log("Listening on 8080");
 })
-.end()
+.done()
 ```
 
 
@@ -621,7 +621,7 @@ You can instantiate a JSGI application from the chain by terminating it.
 The return value is an app, not a link in the chain.
 
 ```javascript
-.end()
+.done()
 ```
 
 
